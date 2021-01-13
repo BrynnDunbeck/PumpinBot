@@ -1,0 +1,7 @@
+**PumpinBot Commands**
+
+Current Mythic+ Affixes:
+`!pumpin -affixes`
+
+Top 4 Weekly Mythic+ Runs (Illidan only):
+`!pumpin -weekly {character name}`
