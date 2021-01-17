@@ -12,23 +12,26 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print('PumpinBot has connected to Discord!')
+
+    
 
 @client.event
 async def on_message(message):
     # set text channel
-    channel = client.get_channel(798683983885107224)
+    channel = client.get_channel(797567936767983696)
 
     # mythic+ affixes: !pumpin -affixes
     if message.content == '!pumpin -affixes':
         response = requests.get('http://raider.io/api/v1/mythic-plus/affixes?region=us')
         if response:
             content = response.json()
-            names = content["title"] + '\n'
-            two = f'2+ | {content["affix_details"][0]["name"]} | {content["affix_details"][0]["description"]}\n'
-            four = f'4+ | {content["affix_details"][1]["name"]} | {content["affix_details"][1]["description"]}\n'
-            seven = f'7+ | {content["affix_details"][2]["name"]} | {content["affix_details"][2]["description"]}\n'
-            ten = f'10+ | {content["affix_details"][3]["name"]} | {content["affix_details"][3]["description"]}\n'
+            names = content['title'] + '\n'
+            affixes = content['affix_details']
+            two = f'2+ | {affixes[0]["name"]} | {affixes[0]["description"]}\n'
+            four = f'4+ | {affixes[1]["name"]} | {affixes[1]["description"]}\n'
+            seven = f'7+ | {affixes[2]["name"]} | {affixes[2]["description"]}\n'
+            ten = f'10+ | {affixes[3]["name"]} | {affixes[3]["description"]}\n'
             await channel.send(f'**{names}**\n{two}\n{four}\n{seven}\n{ten}')
 
     # mythic+ top 4 weekly keys: !pumpin -weekly {character name}
@@ -42,7 +45,7 @@ async def on_message(message):
             runs = content["mythic_plus_weekly_highest_level_runs"]
             # no weekly runs completed
             if runs == []:
-                await channel.send(f'{name} has not completed any keystones this week')
+                await channel.send(f'{name} has not completed any keys this week')
             # format weekly runs
             else:
                 string = f'**{name}\'s Top 4 Weekly runs\n**'
